@@ -14,9 +14,6 @@
 		E7B282542B8CC2DC00D1A58E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7B282532B8CC2DC00D1A58E /* ViewController.swift */; };
 		E7B282562B8CC2DD00D1A58E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E7B282552B8CC2DD00D1A58E /* Assets.xcassets */; };
 		E7B282592B8CC2DD00D1A58E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E7B282572B8CC2DD00D1A58E /* Main.storyboard */; };
-		E7B282642B8CC2DD00D1A58E /* dolbypottersadventureTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7B282632B8CC2DD00D1A58E /* dolbypottersadventureTests.swift */; };
-		E7B2826E2B8CC2DD00D1A58E /* dolbypottersadventureUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7B2826D2B8CC2DD00D1A58E /* dolbypottersadventureUITests.swift */; };
-		E7B282702B8CC2DD00D1A58E /* dolbypottersadventureUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7B2826F2B8CC2DD00D1A58E /* dolbypottersadventureUITestsLaunchTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,10 +44,7 @@
 		E7B282582B8CC2DD00D1A58E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		E7B2825A2B8CC2DD00D1A58E /* dolbypottersadventure.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = dolbypottersadventure.entitlements; sourceTree = "<group>"; };
 		E7B2825F2B8CC2DD00D1A58E /* dolbypottersadventureTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = dolbypottersadventureTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		E7B282632B8CC2DD00D1A58E /* dolbypottersadventureTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = dolbypottersadventureTests.swift; sourceTree = "<group>"; };
 		E7B282692B8CC2DD00D1A58E /* dolbypottersadventureUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = dolbypottersadventureUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		E7B2826D2B8CC2DD00D1A58E /* dolbypottersadventureUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = dolbypottersadventureUITests.swift; sourceTree = "<group>"; };
-		E7B2826F2B8CC2DD00D1A58E /* dolbypottersadventureUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = dolbypottersadventureUITestsLaunchTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,8 +76,6 @@
 			isa = PBXGroup;
 			children = (
 				E7B2824A2B8CC2DC00D1A58E /* dolbypottersadventure */,
-				E7B282622B8CC2DD00D1A58E /* dolbypottersadventureTests */,
-				E7B2826C2B8CC2DD00D1A58E /* dolbypottersadventureUITests */,
 				E7B282492B8CC2DC00D1A58E /* Products */,
 			);
 			sourceTree = "<group>";
@@ -111,23 +103,6 @@
 				E7B2825A2B8CC2DD00D1A58E /* dolbypottersadventure.entitlements */,
 			);
 			path = dolbypottersadventure;
-			sourceTree = "<group>";
-		};
-		E7B282622B8CC2DD00D1A58E /* dolbypottersadventureTests */ = {
-			isa = PBXGroup;
-			children = (
-				E7B282632B8CC2DD00D1A58E /* dolbypottersadventureTests.swift */,
-			);
-			path = dolbypottersadventureTests;
-			sourceTree = "<group>";
-		};
-		E7B2826C2B8CC2DD00D1A58E /* dolbypottersadventureUITests */ = {
-			isa = PBXGroup;
-			children = (
-				E7B2826D2B8CC2DD00D1A58E /* dolbypottersadventureUITests.swift */,
-				E7B2826F2B8CC2DD00D1A58E /* dolbypottersadventureUITestsLaunchTests.swift */,
-			);
-			path = dolbypottersadventureUITests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -272,7 +247,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E7B282642B8CC2DD00D1A58E /* dolbypottersadventureTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -280,8 +254,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E7B282702B8CC2DD00D1A58E /* dolbypottersadventureUITestsLaunchTests.swift in Sources */,
-				E7B2826E2B8CC2DD00D1A58E /* dolbypottersadventureUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -13,72 +13,83 @@ class GameScene: SKScene {
     private var label : SKLabelNode?
     private var spinnyNode : SKShapeNode?
     
+    var austin = SKSpriteNode()
+    
+    var mike = SKSpriteNode()
+    
+    var wall = SKSpriteNode()
+    
+    var jumps = 1
+    
+    var level = 0
+    
+    
     override func didMove(to view: SKView) {
         
-        // Get label node from scene and store it for use later
-        self.label = self.childNode(withName: "//helloLabel") as? SKLabelNode
-        if let label = self.label {
-            label.alpha = 0.0
-            label.run(SKAction.fadeIn(withDuration: 2.0))
-        }
         
-        // Create shape node to use during mouse interaction
-        let w = (self.size.width + self.size.height) * 0.05
-        self.spinnyNode = SKShapeNode.init(rectOf: CGSize.init(width: w, height: w), cornerRadius: w * 0.3)
+//        let border = SKPhysicsBody(edgeLoopFrom: self.frame)
+//        self.physicsBody = border
+        wall = childNode(withName: "wall") as! SKSpriteNode
         
-        if let spinnyNode = self.spinnyNode {
-            spinnyNode.lineWidth = 2.5
-            
-            spinnyNode.run(SKAction.repeatForever(SKAction.rotate(byAngle: CGFloat(Double.pi), duration: 1)))
-            spinnyNode.run(SKAction.sequence([SKAction.wait(forDuration: 0.5),
-                                              SKAction.fadeOut(withDuration: 0.5),
-                                              SKAction.removeFromParent()]))
-        }
+        austin = childNode(withName: "austin") as! SKSpriteNode
+        austin.color = NSColor.green
+        austin.physicsBody?.isDynamic = false
+        
+        createMike()
     }
     
     
-    func touchDown(atPoint pos : CGPoint) {
-        if let n = self.spinnyNode?.copy() as! SKShapeNode? {
-            n.position = pos
-            n.strokeColor = SKColor.green
-            self.addChild(n)
-        }
-    }
-    
-    func touchMoved(toPoint pos : CGPoint) {
-        if let n = self.spinnyNode?.copy() as! SKShapeNode? {
-            n.position = pos
-            n.strokeColor = SKColor.blue
-            self.addChild(n)
-        }
-    }
-    
-    func touchUp(atPoint pos : CGPoint) {
-        if let n = self.spinnyNode?.copy() as! SKShapeNode? {
-            n.position = pos
-            n.strokeColor = SKColor.red
-            self.addChild(n)
-        }
+    func createMike() {
+        mike = SKSpriteNode(color: .blue, size: CGSize(width: 75, height: 75))
+        mike.position = CGPoint(x: frame.width*0.5, y: frame.height*0.5)
+        mike.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 75, height: 75))
+        mike.physicsBody?.restitution = 0
+        mike.physicsBody?.linearDamping = 0.1
+        mike.physicsBody?.angularDamping = 0.1
+        mike.physicsBody?.friction = 0.2
+        mike.physicsBody?.mass = 1
+        mike.physicsBody?.affectedByGravity = true
+        
+        addChild(mike)
     }
     
     override func mouseDown(with event: NSEvent) {
-        self.touchDown(atPoint: event.location(in: self))
+        
     }
     
     override func mouseDragged(with event: NSEvent) {
-        self.touchMoved(toPoint: event.location(in: self))
+        
     }
     
     override func mouseUp(with event: NSEvent) {
-        self.touchUp(atPoint: event.location(in: self))
+        
     }
+    
+    
     
     override func keyDown(with event: NSEvent) {
         switch event.keyCode {
+        case 123:
+            mike.physicsBody?.applyImpulse(CGVector(dx: -75, dy: 0))
+//            mike.run(SKAction.move(by: CGVector(dx: -25, dy: 0), duration: 0.2))
+        case 124:
+            mike.physicsBody?.applyImpulse(CGVector(dx: 75, dy: 0))
+//            mike.run(SKAction.move(by: CGVector(dx: 25, dy: 0), duration: 0.2))
         case 0x31:
-            if let label = self.label {
-                label.run(SKAction.init(named: "Pulse")!, withKey: "fadeInOut")
+            if (jumps == 1  && mike.position.y < 51){
+                mike.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 1005))
+//                mike.run(SKAction.move(by: CGVector(dx: 0, dy: 405), duration: 0.2))
+                jumps = 0
             }
+        case 0:
+            mike.physicsBody?.applyImpulse(CGVector(dx: -75, dy: 0))
+//            mike.run(SKAction.move(by: CGVector(dx: -25, dy: 0), duration: 0.2))
+        case 2:
+            mike.physicsBody?.applyImpulse(CGVector(dx: 75, dy: 0))
+//            mike.run(SKAction.move(by: CGVector(dx: 25, dy: 0), duration: 0.2))
+//            if let label = self.label {
+//                label.run(SKAction.init(named: "Pulse")!, withKey: "fadeInOut")
+//            }
         default:
             print("keyDown: \(event.characters!) keyCode: \(event.keyCode)")
         }
@@ -87,5 +98,41 @@ class GameScene: SKScene {
     
     override func update(_ currentTime: TimeInterval) {
         // Called before each frame is rendered
+        if mike.position.y <= 51 {
+            jumps = 1
+        }
+            if mike.position.x > 1024 {
+                mike.position = CGPoint(x: 1, y: mike.position.y)
+                level += 1
+            }
+            else if mike.position.x < 0 {
+                mike.position = CGPoint(x: 1023, y: mike.position.y)
+                if level != 0 {
+                    level -= 1
+                }
+            }
+            
+        switch level {
+        case 0:
+            wall.position = CGPoint(x: -50.33248901367188,  y: 384.0007019042969)
+            austin.isHidden = true
+            austin.position = CGPoint(x: -200, y: 200)
+        case 1:
+            wall.position = CGPoint(x: -200, y: 400)
+            austin.isHidden = false
+            austin.position = CGPoint(x: frame.width*0.7, y: frame.height*0.5)
+            austin.physicsBody?.velocity = CGVector(dx: 0, dy: 0)
+        case 2:
+            austin.position = CGPoint(x: -200, y: 200)
+            austin.isHidden = true
+        default:
+            print(level)
+        }
+//        print("\(austin.isHidden)")
+//        print("\(austin.position.x) \(austin.position.y)")
+        print(level)
+//        print("y: \(mike.position.y)")
+//        print("x: \(mike.position.x)")
+        
     }
 }
