@@ -7,6 +7,7 @@
 
 import SpriteKit
 import GameplayKit
+import Darwin
 
 class GameScene: SKScene {
     
@@ -25,6 +26,8 @@ class GameScene: SKScene {
     
     var level = 0
     
+    var isRight = true
+    
     
     override func didMove(to view: SKView) {
         
@@ -32,8 +35,10 @@ class GameScene: SKScene {
         //        let border = SKPhysicsBody(edgeLoopFrom: self.frame)
         //        self.physicsBody = border
         wall = childNode(withName: "wall") as! SKSpriteNode
+        wall.color = .brown
         
         wall2 = childNode(withName: "wall2") as! SKSpriteNode
+        wall2.color = .brown
         
         austin = childNode(withName: "austin") as! SKSpriteNode
         austin.color = NSColor.green
@@ -76,10 +81,12 @@ class GameScene: SKScene {
         switch event.keyCode {
         case 123:
             mike.physicsBody?.velocity = CGVector(dx: -275, dy: mike.physicsBody?.velocity.dy ?? 0)
+            isRight = false
             //            mike.physicsBody?.applyImpulse(CGVector(dx: -75, dy: 0))
             //            mike.run(SKAction.move(by: CGVector(dx: -25, dy: 0), duration: 0.2))
         case 124:
             mike.physicsBody?.velocity = CGVector(dx: 275, dy: mike.physicsBody?.velocity.dy ?? 0)
+            isRight = true
             //            mike.physicsBody?.applyImpulse(CGVector(dx: 75, dy: 0))
             //            mike.run(SKAction.move(by: CGVector(dx: 25, dy: 0), duration: 0.2))
         case 0x31:
@@ -90,10 +97,14 @@ class GameScene: SKScene {
             }
         case 0:
             mike.physicsBody?.velocity = CGVector(dx: -275, dy: mike.physicsBody?.velocity.dy ?? 0)
+            isRight = false
             //            mike.physicsBody?.applyImpulse(CGVector(dx: -75, dy: 0))
             //            mike.run(SKAction.move(by: CGVector(dx: -25, dy: 0), duration: 0.2))
+        case 1:
+            addProjectile(mike.position,isRight)
         case 2:
             mike.physicsBody?.velocity = CGVector(dx: 275, dy: mike.physicsBody?.velocity.dy ?? 0)
+            isRight = true
             //            mike.physicsBody?.applyImpulse(CGVector(dx: 75, dy: 0))
             //            mike.run(SKAction.move(by: CGVector(dx: 25, dy: 0), duration: 0.2))
             //            if let label = self.label {
@@ -128,12 +139,17 @@ class GameScene: SKScene {
             austin.position = CGPoint(x: -200, y: 200)
         case 1:
             wall.position = CGPoint(x: 1000, y: 200)
+            wall2.position = CGPoint(x: -400, y: 0)
             austin.isHidden = false
             austin.position = CGPoint(x: frame.width*0.8, y: frame.height*0.1)
             austin.physicsBody?.velocity = CGVector(dx: 0, dy: 0)
         case 2:
             wall.position = CGPoint(x: -0.33248901367188,  y: 200)
             austin.position = CGPoint(x: frame.width*0.2, y: frame.height*0.1)
+            wall2.position = CGPoint(x: 400, y: 300)
+            wall2.size = CGSize(width: 132.666, height: 400)
+            wall2.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 132.666, height: 400))
+            
         default:
             print(level)
             level = 2
@@ -146,4 +162,37 @@ class GameScene: SKScene {
         //        print("x: \(mike.position.x)")
         
     }
+    
+    func addProjectile(_ location: CGPoint, _ facingRight: Bool)  {
+        var ball = SKSpriteNode(color: .red, size: CGSize(width: 25, height: 25))
+        ball.position = location
+        
+        addChild(ball)
+        
+        
+        ball.physicsBody = SKPhysicsBody(rectangleOf: ball.size)
+        ball.physicsBody?.friction = 0.2
+        ball.physicsBody?.mass = 0.5
+        ball.physicsBody?.angularDamping = 0.1
+        ball.physicsBody?.linearDamping = 0.1
+        ball.physicsBody?.restitution = 0.2
+        if facingRight {
+            ball.position.x += 30
+            ball.physicsBody?.applyImpulse(CGVector(dx: 500, dy: 0))
+        }
+        else {
+            ball.position.x -= 30
+            ball.physicsBody?.applyImpulse(CGVector(dx: -500, dy: 0))
+        }
+        ball.physicsBody?.affectedByGravity = false
+        ball.physicsBody?.allowsRotation = false
+        DispatchQueue.global(qos: .background).async {
+            usleep(400000)
+            DispatchQueue.main.async{
+                ball.removeFromParent()
+            }
+        }
+    }
+    
+    
 }
